@@ -165,9 +165,9 @@ export default class Cxtj extends React.Component {
     <tr>
       {
         this.state.head.map((col, index) => {
-          return <th key={index} style={{whiteSpace: 'nowrap'}}>{col}&nbsp;&nbsp;
+          return <td key={index} style={{whiteSpace: 'nowrap', backgroundColor: '#f5f5f5'}}>{col}&nbsp;&nbsp;
             <OutputOperator index={index} moveLeft={this.moveLeft} moveRight={this.moveRight}/>
-          </th>
+          </td>
         })
       }
     </tr>
