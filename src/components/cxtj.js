@@ -1,8 +1,8 @@
-import React from "react";
-import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Modal, Well} from "react-bootstrap";
-import Add from "./add";
-import OutputFilter from "./output-filter";
-import Tree from "./tree";
+import React from 'react';
+import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Well} from 'react-bootstrap';
+import Add from './add';
+import OutputFilter from './output-filter';
+import Tree from './tree';
 import update from 'react-addons-update';
 
 
@@ -32,7 +32,6 @@ export default class Cxtj extends React.Component {
   };
 
   removeCondition = (index) => {
-    console.log('index', index);
     this.setState({
       conditions: update(this.state.conditions, {$splice: [[index, 1]]})
     })
@@ -115,8 +114,8 @@ export default class Cxtj extends React.Component {
     this.setState({conditions: conditions});
   };
 
-  setOutput = (value) => {
-    console.log('value');
+  setOutput = (output) => {
+    this.props.setOutput(output);
   };
 
   search = () => {
@@ -125,7 +124,7 @@ export default class Cxtj extends React.Component {
 
   render() {
     return (
-      <div className="cxtj" style={{height: "400px", overflow: "auto"}}>
+      <div className="cxtj" style={{height: '400px', overflow: 'auto'}}>
         <Form inline>
           <FormGroup>
             <ControlLabel>条件查询：</ControlLabel>
@@ -142,10 +141,11 @@ export default class Cxtj extends React.Component {
             <Button bsStyle="success" onClick={this.search}>开始查询</Button>
           </FormGroup>
           <Add show={this.state.showAddModal} close={this.closeAdd} add={this.addCondition}/>
-          <OutputFilter show={this.state.showOutputFilterModal} close={this.closeOutputFilter} setOutput={this.setOutput}/>
+          <OutputFilter show={this.state.showOutputFilterModal} close={this.closeOutputFilter}
+                        setOutput={this.setOutput}/>
         </Form>
         {'  '}
-        <Well style={{marginTop: "30px"}}>
+        <Well style={{marginTop: '30px'}}>
           <Tree data={this.state.conditions}
                 up={this.upCondition}
                 down={this.downCondition}
@@ -156,3 +156,7 @@ export default class Cxtj extends React.Component {
     )
   }
 }
+
+Cxtj.propTypes = {
+  setOutput: React.PropTypes.func.isRequired
+};

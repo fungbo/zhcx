@@ -1,8 +1,8 @@
-import React from "react";
-import {Form, FormGroup, FormControl, ControlLabel, InputGroup, Button, Modal} from "react-bootstrap";
-import {Treebeard} from "react-treebeard";
-import Style from "react-treebeard/lib/themes/default";
-import {data} from "../stores/xzqu-data";
+import React from 'react';
+import {Form, FormGroup, FormControl, ControlLabel, InputGroup, Button, Modal} from 'react-bootstrap';
+import {Treebeard} from 'react-treebeard';
+import Style from 'react-treebeard/lib/themes/default';
+import {data} from '../stores/xzqu-data';
 
 export default class Xzqu extends React.Component {
   constructor(props) {

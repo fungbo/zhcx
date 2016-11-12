@@ -1,6 +1,6 @@
-import React from "react";
-import {Modal, Button, FormGroup, ControlLabel, FormControl, option, Grid, Row, Col, FieldGroup} from "react-bootstrap";
-import {data, Type} from "../stores/tj-data";
+import React from 'react';
+import {Modal, FormGroup, Button, ControlLabel, FormControl, option, Grid, Row, Col} from 'react-bootstrap';
+import {data, Type} from '../stores/tj-data';
 
 export default class Add extends React.Component {
   constructor(props) {
@@ -94,7 +94,7 @@ export default class Add extends React.Component {
 
   render() {
     let style = {
-      height: "230px"
+      height: '230px'
     };
 
     return (

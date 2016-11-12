@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default class Operator extends React.Component {
   constructor(props) {
@@ -41,12 +41,12 @@ export default class Operator extends React.Component {
 
   render() {
     let style = {
-      border: "none", backgroundColor: "transparent", padding: "0"
+      border: 'none', backgroundColor: 'transparent', padding: '0'
     };
 
     let delStyle = {
       ...style,
-      color: "red"
+      color: 'red'
     };
 
     if (this.props.show) {
