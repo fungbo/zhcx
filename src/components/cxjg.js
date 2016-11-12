@@ -16,5 +16,5 @@ export default class Cxjg extends React.Component {
 }
 
 Cxjg.propTypes = {
-  output: React.propTypes.object.isRequired
+  output: React.PropTypes.object.isRequired
 };
