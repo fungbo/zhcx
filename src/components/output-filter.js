@@ -36,7 +36,7 @@ export default class OutputFilter extends React.Component {
     let sy = Object.assign({}, this.state.sy);
     let by = Object.assign({}, this.state.by);
 
-    if (value.startsWith('人员信息')) {
+    if (value.startsWith('人员基本信息')) {
       ry[value] = checked;
     } else if (value.startsWith('生养信息')) {
       sy[value] = checked;
@@ -44,17 +44,17 @@ export default class OutputFilter extends React.Component {
       by[value] = checked;
     }
 
-    this.setState({ry: ry, sy: sy, by: by});
+    this.setState({ry, sy, by});
   };
 
   getCheckedState = (name) => {
     if (name) {
-      if (name.startsWith('人员信息')) {
-        return this.state.ry[name];
+      if (name.startsWith('人员基本信息')) {
+        return !!this.state.ry[name];
       } else if (name.startsWith('生养信息')) {
-        return this.state.sy[name];
+        return !!this.state.sy[name];
       } else {
-        return this.state.by[name];
+        return !!this.state.by[name];
       }
     }
     return false;
@@ -65,12 +65,10 @@ export default class OutputFilter extends React.Component {
 
     let ry = {};
     for (let attr of attrs) {
-      ry[`人员信息-${attr.name}`] = true;
+      ry[`人员基本信息-${attr.name}`] = true;
     }
 
-    console.log(ry);
-
-    this.setState({ry: ry});
+    this.setState({ry});
   };
 
   unselectAllRY = () => {
@@ -85,7 +83,7 @@ export default class OutputFilter extends React.Component {
       sy[`生养信息-${attr.name}`] = true;
     }
 
-    this.setState({sy: sy});
+    this.setState({sy});
   };
 
   unselectAllSY = () => {
@@ -97,10 +95,10 @@ export default class OutputFilter extends React.Component {
 
     let by = {};
     for (let attr of attrs) {
-      by[`避孕信息-${attr.name}`] = true;
+      by[`避孕状况-${attr.name}`] = true;
     }
 
-    this.setState({by: by});
+    this.setState({by});
   };
 
   unselectAllBY = () => {
@@ -126,12 +124,12 @@ export default class OutputFilter extends React.Component {
             {
               attrs1.map((attr, index) => {
                 if (index % 6 == 0) {
-                  let col1 = `人员信息-${attrs1[index].name}`;
-                  let col2 = attrs1[index + 1] ? `人员信息-${attrs1[index + 1].name}` : '';
-                  let col3 = attrs1[index + 2] ? `人员信息-${attrs1[index + 2].name}` : '';
-                  let col4 = attrs1[index + 3] ? `人员信息-${attrs1[index + 3].name}` : '';
-                  let col5 = attrs1[index + 4] ? `人员信息-${attrs1[index + 4].name}` : '';
-                  let col6 = attrs1[index + 5] ? `人员信息-${attrs1[index + 5].name}` : '';
+                  let col1 = `人员基本信息-${attrs1[index].name}`;
+                  let col2 = attrs1[index + 1] ? `人员基本信息-${attrs1[index + 1].name}` : '';
+                  let col3 = attrs1[index + 2] ? `人员基本信息-${attrs1[index + 2].name}` : '';
+                  let col4 = attrs1[index + 3] ? `人员基本信息-${attrs1[index + 3].name}` : '';
+                  let col5 = attrs1[index + 4] ? `人员基本信息-${attrs1[index + 4].name}` : '';
+                  let col6 = attrs1[index + 5] ? `人员基本信息-${attrs1[index + 5].name}` : '';
                   return <tr style={style}>
                     <td className={`${attrs1[index] ? '' : css.hidden}`}>
                       <Checkbox style={style} checked={this.getCheckedState(col1)}
@@ -248,12 +246,12 @@ export default class OutputFilter extends React.Component {
             {
               attrs3.map((attr, index) => {
                 if (index % 6 == 0) {
-                  let col1 = `避孕信息-${attrs3[index].name}`;
-                  let col2 = attrs3[index + 1] ? `避孕信息-${attrs3[index + 1].name}` : '';
-                  let col3 = attrs3[index + 2] ? `避孕信息-${attrs3[index + 2].name}` : '';
-                  let col4 = attrs3[index + 3] ? `避孕信息-${attrs3[index + 3].name}` : '';
-                  let col5 = attrs3[index + 4] ? `避孕信息-${attrs3[index + 4].name}` : '';
-                  let col6 = attrs3[index + 5] ? `避孕信息-${attrs3[index + 5].name}` : '';
+                  let col1 = `避孕状况-${attrs3[index].name}`;
+                  let col2 = attrs3[index + 1] ? `避孕状况-${attrs3[index + 1].name}` : '';
+                  let col3 = attrs3[index + 2] ? `避孕状况-${attrs3[index + 2].name}` : '';
+                  let col4 = attrs3[index + 3] ? `避孕状况-${attrs3[index + 3].name}` : '';
+                  let col5 = attrs3[index + 4] ? `避孕状况-${attrs3[index + 4].name}` : '';
+                  let col6 = attrs3[index + 5] ? `避孕状况-${attrs3[index + 5].name}` : '';
                   return <tr style={style}>
                     <td className={`${attrs3[index] ? '' : css.hidden}`}>
                       <Checkbox style={style} checked={this.getCheckedState(col1)}

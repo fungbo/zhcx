@@ -9,8 +9,10 @@
 
 .cxtj {
   height: 450px;
+  overflow: auto;
 }
 
 .cxjg {
   height: 300px;
+  overflow: auto;
 }

@@ -14,16 +14,12 @@ export default class Zhcx extends React.Component {
     };
   }
 
-  setOutput = (output) => {
-    this.setState({output: output});
-  };
-
   render() {
     return (
       <Grid>
         <Row><Col xs={8} className={`${css.column} ${css.xzqu}`}><Xzqu/></Col></Row>
-        <Row><Col xs={8} className={`${css.column} ${css.cxtj}`}><Cxtj setOutput={this.setOutput}/></Col></Row>
-        <Row><Col xs={8} className={`${css.column} ${css.cxjg}`}><Cxjg output={this.state.output}/></Col></Row>
+        <Row><Col xs={8} className={`${css.column} ${css.cxtj}`}><Cxtj/></Col></Row>
+        <Row><Col xs={8} className={`${css.column} ${css.cxjg}`}><Cxjg/></Col></Row>
       </Grid>
     )
   }

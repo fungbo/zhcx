@@ -1,16 +1,17 @@
 import React from 'react';
-import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Well} from 'react-bootstrap';
+import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Well, Table} from 'react-bootstrap';
 import Add from './add';
 import OutputFilter from './output-filter';
 import Tree from './tree';
 import update from 'react-addons-update';
-
+import OutputOperator from './output-operator';
 
 export default class Cxtj extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      head: [],
       conditions: [],
       checkedList: []
     };
@@ -115,12 +116,63 @@ export default class Cxtj extends React.Component {
   };
 
   setOutput = (output) => {
-    this.props.setOutput(output);
+    let ry = output.ry;
+    let sy = output.sy;
+    let by = output.by;
+    let combinedOutput = Object.assign({}, ry, sy, by);
+
+    let head = [];
+    for (let property in combinedOutput) {
+      if (combinedOutput.hasOwnProperty(property)) {
+        if (combinedOutput[property]) {
+          head.push(property);
+        }
+      }
+    }
+
+    this.setState({head});
+  };
+
+  moveLeft = (index) => {
+    if (index == 0) {
+      return;
+    }
+
+    let newHead = this.state.head;
+    newHead.move(index, index - 1);
+
+    this.setState({head: newHead});
+  };
+
+  moveRight = (index) => {
+    let newHead = this.state.head;
+
+    if (index == newHead.length -1 ) {
+      return;
+    }
+
+    newHead.move(index, index + 1);
+
+    this.setState({head: newHead});
   };
 
   search = () => {
     console.log('conditions', this.state.conditions);
   };
+
+  renderHead() {
+    return <thead>
+    <tr>
+      {
+        this.state.head.map((col, index) => {
+          return <th key={index} style={{whiteSpace: 'nowrap'}}>{col}&nbsp;&nbsp;
+            <OutputOperator index={index} moveLeft={this.moveLeft} moveRight={this.moveRight}/>
+          </th>
+        })
+      }
+    </tr>
+    </thead>;
+  }
 
   render() {
     return (
@@ -152,6 +204,15 @@ export default class Cxtj extends React.Component {
                 check={this.checkCondition}
                 remove={this.removeCondition}/>
         </Well>
+
+        <Form>
+          <FormGroup style={{overflow: 'auto'}}>
+            <ControlLabel>查询结果：</ControlLabel>
+            <Table bordered responsive>
+              {this.renderHead()}
+            </Table>
+          </FormGroup>
+        </Form>
       </div>
     )
   }
