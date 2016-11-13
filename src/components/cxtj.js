@@ -1,19 +1,27 @@
 import React from 'react';
-import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Well, Table} from 'react-bootstrap';
+import {Form, FormGroup, ControlLabel, ButtonGroup, Button, Well, Table, Modal} from 'react-bootstrap';
 import Add from './add';
 import OutputFilter from './output-filter';
 import Tree from './tree';
 import update from 'react-addons-update';
 import OutputOperator from './output-operator';
+import axios from 'axios';
 
-export default class Cxtj extends React.Component {
+class Cxtj extends React.Component {
   constructor(props) {
     super(props);
+
+    this.defaultModal = {
+      show: false,
+      title: '',
+      msg: ''
+    };
 
     this.state = {
       head: [],
       conditions: [],
-      checkedList: []
+      checkedList: [],
+      modal: this.defaultModal
     };
   }
 
@@ -147,7 +155,7 @@ export default class Cxtj extends React.Component {
   moveRight = (index) => {
     let newHead = this.state.head;
 
-    if (index == newHead.length -1 ) {
+    if (index == newHead.length - 1) {
       return;
     }
 
@@ -156,16 +164,61 @@ export default class Cxtj extends React.Component {
     this.setState({head: newHead});
   };
 
-  search = () => {
-    console.log('conditions', this.state.conditions);
+  timer = () => {
+    let modal = Object.assign({}, this.state.modal);
+    let second = modal.msg.substring(0, modal.msg.indexOf('秒'));
+    modal.msg = `${(parseFloat(second) + 0.01).toFixed(2)}秒`;
+
+    this.setState({modal});
   };
 
+  search = () => {
+    if (this.state.conditions.length == 0) {
+      this.setState({modal: {show: true, title: '查询条件设置有误', msg: '查询条件不能为空，请设置查询条件。'}});
+      return;
+    }
+
+    if (this.state.head.length == 0) {
+      this.setState({modal: {show: true, title: '输出项设置有误', msg: '输出项不能为空，请选择输出项。'}})
+      return;
+    }
+
+    let intervalId = setInterval(this.timer, 10);
+    this.setState({intervalId: intervalId, modal: {show: true, title: '数据加载中...', msg: '0.00秒'}});
+
+    axios.post('/zhcx', {
+      conditions: this.state.conditions,
+      head: this.state.head
+    }).then((response) => {
+      console.log('response', data);
+      clearInterval(this.state.intervalId);
+    }).catch((error) => {
+      console.log('zhcx load error: ', error);
+      clearInterval(this.state.intervalId);
+      this.setState({intervalId: -1, modal: {show: true, title: '加载错误', msg: '加载错误，请检查查询条件或重试'}});
+    })
+  };
+
+  closeModal = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({intervalId: -1, modal: this.defaultModal});
+  };
+
+
   renderHead() {
+    let style = {
+      whiteSpace: 'nowrap',
+      backgroundColor: '#f5f5f5',
+      fontSize: 'smaller',
+      padding: 0,
+      paddingLeft: '5px',
+      paddingRight: '5px'
+    };
     return <thead>
     <tr>
       {
         this.state.head.map((col, index) => {
-          return <td key={index} style={{whiteSpace: 'nowrap', backgroundColor: '#f5f5f5'}}>{col}&nbsp;&nbsp;
+          return <td key={index} style={style}>{col}&nbsp;&nbsp;
             <OutputOperator index={index} moveLeft={this.moveLeft} moveRight={this.moveRight}/>
           </td>
         })
@@ -206,13 +259,25 @@ export default class Cxtj extends React.Component {
         </Well>
 
         <Form>
-          <FormGroup style={{overflow: 'auto'}}>
-            <ControlLabel>查询结果：</ControlLabel>
+          <FormGroup>
+            <ControlLabel>输出结果：</ControlLabel>
             <Table bordered responsive>
               {this.renderHead()}
             </Table>
           </FormGroup>
         </Form>
+
+        <Modal bsSize="small" keyboard={false} show={this.state.modal.show} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.modal.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p className="text-danger text-center">{this.state.modal.msg}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="primary" onClick={this.closeModal}>关闭</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
@@ -221,3 +286,5 @@ export default class Cxtj extends React.Component {
 Cxtj.propTypes = {
   setOutput: React.PropTypes.func.isRequired
 };
+
+export default Cxtj;

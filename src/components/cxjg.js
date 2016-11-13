@@ -1,5 +1,4 @@
 import React from 'react';
-import {Form, FormGroup, ControlLabel, Table} from 'react-bootstrap';
 
 export default class Cxjg extends React.Component {
   constructor(props) {
@@ -17,5 +16,4 @@ export default class Cxjg extends React.Component {
   }
 }
 
-Cxjg.propTypes = {
-};
+Cxjg.propTypes = {};

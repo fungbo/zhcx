@@ -14,7 +14,8 @@ export default class OutputOperator extends Component {
 
   render() {
     let style = {
-      border: 'none', backgroundColor: 'transparent', padding: '0'
+      border: 'none', backgroundColor: 'transparent', padding: '0',
+      fontSize: 'smaller'
     };
 
     return <span>
