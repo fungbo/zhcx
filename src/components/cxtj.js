@@ -196,8 +196,9 @@ class Cxtj extends React.Component {
       },
       responseType: 'json'
     }).then((response) => {
-      console.log('response', response.data);
       clearInterval(this.state.intervalId);
+      this.props.setHead(this.state.head);
+      this.props.setResult(response.data);
     }).catch((error) => {
       console.log('zhcx load error: ', error);
       clearInterval(this.state.intervalId);
@@ -224,9 +225,9 @@ class Cxtj extends React.Component {
     <tr>
       {
         this.state.head.map((col, index) => {
-          return <td key={index} style={style}>{col}&nbsp;&nbsp;
+          return <th key={index} style={style}>{col}&nbsp;&nbsp;
             <OutputOperator index={index} moveLeft={this.moveLeft} moveRight={this.moveRight}/>
-          </td>
+          </th>
         })
       }
     </tr>
@@ -290,8 +291,9 @@ class Cxtj extends React.Component {
 }
 
 Cxtj.propTypes = {
-  setOutput: React.PropTypes.func.isRequired,
-  district: React.PropTypes.string.isRequired
+  district: React.PropTypes.string.isRequired,
+  setResult: React.PropTypes.func.isRequired,
+  setHead: React.PropTypes.func.isRequired
 };
 
 export default Cxtj;
