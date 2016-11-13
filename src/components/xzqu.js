@@ -24,7 +24,9 @@ export default class Xzqu extends React.Component {
 
   selectDistrict = () => {
     this.setState({showModal: false});
-    this.setState({selectedDistrict: this.state.cursor})
+    this.setState({selectedDistrict: this.state.cursor});
+
+    this.props.setDistrict(this.state.cursor.name);
   };
 
   render() {
@@ -62,3 +64,7 @@ export default class Xzqu extends React.Component {
     )
   }
 }
+
+Xzqu.propTypes = {
+  setDistrict: React.PropTypes.func.isRequired
+};

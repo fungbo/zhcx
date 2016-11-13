@@ -186,11 +186,17 @@ class Cxtj extends React.Component {
     let intervalId = setInterval(this.timer, 10);
     this.setState({intervalId: intervalId, modal: {show: true, title: '数据加载中...', msg: '0.00秒'}});
 
-    axios.post('/zhcx', {
-      conditions: this.state.conditions,
-      head: this.state.head
+    axios.request({
+      method: 'post',
+      url: '/zhcx/',
+      data: {
+        district: this.props.district,
+        conditions: this.state.conditions,
+        head: this.state.head
+      },
+      responseType: 'json'
     }).then((response) => {
-      console.log('response', data);
+      console.log('response', response.data);
       clearInterval(this.state.intervalId);
     }).catch((error) => {
       console.log('zhcx load error: ', error);
@@ -284,7 +290,8 @@ class Cxtj extends React.Component {
 }
 
 Cxtj.propTypes = {
-  setOutput: React.PropTypes.func.isRequired
+  setOutput: React.PropTypes.func.isRequired,
+  district: React.PropTypes.string.isRequired
 };
 
 export default Cxtj;
