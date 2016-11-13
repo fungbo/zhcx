@@ -1,6 +1,17 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
 
+
+let style = {
+  whiteSpace: 'nowrap',
+  backgroundColor: '#f5f5f5',
+  fontSize: 'smaller',
+  padding: 0,
+  paddingLeft: '5px',
+  paddingRight: '5px'
+};
+
+
 export default class Cxjg extends React.Component {
   constructor(props) {
     super(props);
@@ -29,19 +40,18 @@ export default class Cxjg extends React.Component {
     </tbody>;
   };
 
-  renderTHead = () => {
-    let style = {
-      whiteSpace: 'nowrap',
-      backgroundColor: '#f5f5f5',
-      fontSize: 'smaller',
-      padding: 0,
-      paddingLeft: '5px',
-      paddingRight: '5px'
-    };
+  renderNo = () => {
+    if (this.props.head.length === 0) {
+      return null;
+    } else {
+      return <th style={style}>No.</th>
+    }
+  };
 
+  renderTHead = () => {
     return <thead>
     <tr>
-      <th style={style}>No.</th>
+      {this.renderNo()}
       {
         this.props.head.map((col, index) => {
           return <th key={index} style={style}>{col.split('-')[1]}</th>
