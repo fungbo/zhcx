@@ -190,8 +190,8 @@ class Cxtj extends React.Component {
       district: this.props.district,
       conditions: this.state.conditions,
       head: this.state.head,
-      pageNumber: this.props.activeMaxNum,
-      maxRecordsPerPage: this.props.activePage
+      pageNumber: this.props.activePage,
+      maxRecordsPerPage: this.props.activeMaxNum
     };
 
     this.props.setData(data);
