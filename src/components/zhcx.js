@@ -34,7 +34,7 @@ export default class Zhcx extends React.Component {
   };
 
   setData = (data) => {
-    this.setState(data);
+    this.setState({data});
   };
 
   setActivePage = (value) => {
@@ -46,17 +46,21 @@ export default class Zhcx extends React.Component {
   };
 
   sendRequest = () => {
-    console.log('sendRequest');
     if (Object.keys(this.state.data).length === 0) {
       return;
     }
 
+    let data = Object.assign({}, this.state.data);
+    data.pageNumber = this.state.activePage;
+    data.maxRecordsPerPage = this.state.activeMaxNum;
+
     axios.request({
       method: 'post',
       url: '/zhcx/',
-      data: this.state.data,
+      data: data,
       responseType: 'json'
     }).then((response) => {
+      console.log('response', response.data);
       this.setHead(this.state.head);
       this.setResult(response.data);
     }).catch((error) => {

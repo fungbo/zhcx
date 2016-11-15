@@ -28,7 +28,11 @@ export default class Cxjg extends React.Component {
       <td>{rowIndex + 1}</td>
       {
         keys.map((key, index) => {
-          return <td key={index}>{row[key] === null ? 'Null' : row[key]}</td>
+          if (index === keys.length - 1) {
+            return null;
+          } else {
+            return <td key={index}>{row[key] === null ? 'Null' : row[key]}</td>
+          }
         })
       }
     </tr>
