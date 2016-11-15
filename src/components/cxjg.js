@@ -18,8 +18,6 @@ export default class Cxjg extends React.Component {
 
     this.state = {
       currentPage: 1,
-      activePage: 1,
-      activeMaxNum: 30,
       currentMaxNum: 30
     };
   }
@@ -39,7 +37,7 @@ export default class Cxjg extends React.Component {
   renderTbody = () => {
     return <tbody>
     {
-      this.props.data.result.map((row, index) => {
+      this.props.result.data.map((row, index) => {
         return this.renderRow(row, index);
       })
     }
@@ -68,20 +66,21 @@ export default class Cxjg extends React.Component {
   };
 
   getMaxPageNum = () => {
-    return Math.ceil(this.props.data.count / this.state.activeMaxNum);
+    return Math.ceil(this.props.result.count / this.props.activeMaxNum);
   };
 
   getMaxButtons = () => {
-    let maxButtons = Math.ceil(this.props.data.count / this.state.activeMaxNum);
+    let maxButtons = Math.ceil(this.props.result.count / this.props.activeMaxNum);
     return maxButtons > 5 ? 5 : maxButtons;
   };
 
   handleSelect = (eventKey) => {
-    this.setState({activePage: eventKey});
+    this.props.setActivePage(eventKey);
+    this.props.sendRequest();
   };
 
   inputPageNum = (ev) => {
-    let maxPageNum = Math.ceil(this.props.data.count / this.state.activeMaxNum);
+    let maxPageNum = Math.ceil(this.props.result.count / this.props.activeMaxNum);
     let value = parseInt(ev.target.value) > maxPageNum ? maxPageNum : parseInt(ev.target.value);
     this.setState({currentPage: value});
   };
@@ -92,20 +91,19 @@ export default class Cxjg extends React.Component {
   };
 
   jumpTo = () => {
-    this.setState({activePage: this.state.currentPage});
+    this.props.setActivePage(this.state.currentPage);
+    this.props.sendRequest();
   };
 
   changeMaxNum = () => {
-    this.setState(
-      {
-        activeMaxNum: this.state.currentMaxNum,
-        currentPage: 1,
-        activePage: 1
-      });
+    this.setState({currentPage: 1,});
+    this.props.setActiveMaxNum(this.state.currentMaxNum);
+    this.props.setActivePage(1);
+    this.props.sendRequest();
   };
 
   renderPaginator = () => {
-    if (this.props.data.result.length !== 0) {
+    if (this.props.result.data.length === 0) {
       return null;
     } else {
       return <div>
@@ -113,7 +111,7 @@ export default class Cxjg extends React.Component {
                     prev next first last ellipsis boundaryLinks
                     items={this.getMaxPageNum()}
                     maxButtons={this.getMaxButtons()}
-                    activePage={this.state.activePage}
+                    activePage={this.props.activePage}
                     onSelect={this.handleSelect}/>
         {' '}
         <InputGroup style={{width: '70px'}}>
@@ -154,8 +152,13 @@ export default class Cxjg extends React.Component {
 }
 
 Cxjg.propTypes = {
+  activeMaxNum: React.PropTypes.number.isRequired,
+  activePage: React.PropTypes.number.isRequired,
   head: React.PropTypes.array.isRequired,
-  data: React.PropTypes.object.isRequired
+  result: React.PropTypes.object.isRequired,
+  setActivePage: React.PropTypes.func.isRequired,
+  setActiveMaxNum: React.PropTypes.func.isRequired,
+  sendRequest: React.PropTypes.func.isRequired
 };
 
 

@@ -5,6 +5,7 @@ import Cxtj from './cxtj';
 import Cxjg from './cxjg';
 import css from '../styles/zhcx.css';
 import {data} from '../stores/xzqu-data';
+import axios from 'axios';
 
 export default class Zhcx extends React.Component {
   constructor(props) {
@@ -12,8 +13,11 @@ export default class Zhcx extends React.Component {
 
     this.state = {
       district: data.name,
+      activePage: 1,
+      activeMaxNum: 30,
       head: [],
-      data: {count: 10, result: []}
+      data: {},
+      result: {count: 0, data: []}
     }
   };
 
@@ -25,8 +29,39 @@ export default class Zhcx extends React.Component {
     this.setState({head});
   };
 
-  setResult = (data) => {
-    this.setState({data});
+  setResult = (result) => {
+    this.setState({result});
+  };
+
+  setData = (data) => {
+    this.setState(data);
+  };
+
+  setActivePage = (value) => {
+    this.setState({activePage: value});
+  };
+
+  setActiveMaxNum = (value) => {
+    this.setState({activeMaxNum: value});
+  };
+
+  sendRequest = () => {
+    console.log('sendRequest');
+    if (Object.keys(this.state.data).length === 0) {
+      return;
+    }
+
+    axios.request({
+      method: 'post',
+      url: '/zhcx/',
+      data: this.state.data,
+      responseType: 'json'
+    }).then((response) => {
+      this.setHead(this.state.head);
+      this.setResult(response.data);
+    }).catch((error) => {
+      console.log('zhcx load error: ', error);
+    })
   };
 
   render() {
@@ -40,15 +75,24 @@ export default class Zhcx extends React.Component {
 
         <Row>
           <Col xs={9} className={`${css.column} ${css.cxtj}`}>
-            <Cxtj district={this.state.district}
+            <Cxtj activePage={this.state.activePage}
+                  activeMaxNum={this.state.activeMaxNum}
+                  district={this.state.district}
                   setHead={this.setHead}
+                  setData={this.setData}
                   setResult={this.setResult}/>
           </Col>
         </Row>
 
         <Row>
           <Col xs={9} className={`${css.jgColumn} ${css.cxjg}`}>
-            <Cxjg head={this.state.head} data={this.state.data}/>
+            <Cxjg head={this.state.head}
+                  activePage={this.state.activePage}
+                  activeMaxNum={this.state.activeMaxNum}
+                  setActivePage={this.setActivePage}
+                  setActiveMaxNum={this.setActiveMaxNum}
+                  result={this.state.result}
+                  sendRequest={this.sendRequest}/>
           </Col>
         </Row>
       </Grid>
