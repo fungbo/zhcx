@@ -3,6 +3,11 @@
   padding-top: 5px;
 }
 
+.jgColumn {
+  border: 1px solid black;
+  padding-top: 5px;
+}
+
 .xzqu {
   height: 50px;
 }
@@ -13,6 +18,5 @@
 }
 
 .cxjg {
-  height: 300px;
   overflow: auto;
 }

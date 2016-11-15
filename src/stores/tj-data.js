@@ -146,6 +146,7 @@ export const data = [
   {
     name: '生养信息',
     attributes: [
+      {name: '编号', type: 1},
       {name: '人员编码', type: 1},
       {name: '证件号码', type: 1},
       {name: '子女编码', type: 1},
@@ -186,6 +187,7 @@ export const data = [
   {
     name: '避孕状况',
     attributes: [
+      {name: '编号', type: 1},
       {name: '人员编码', type: 1},
       {name: '证件号码', type: 1},
       {name: '避孕开始日期', type: 3},
