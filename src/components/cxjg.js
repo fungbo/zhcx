@@ -81,15 +81,17 @@ export default class Cxjg extends React.Component {
   };
 
   inputPageNum = (ev) => {
-    this.setState({currentPage: parseInt(ev.target.value)});
+    let maxPageNum = Math.ceil(this.props.data.count / this.state.activeMaxNum);
+    let value = parseInt(ev.target.value) > maxPageNum ? maxPageNum : parseInt(ev.target.value);
+    this.setState({currentPage: value});
   };
 
   inputMaxNum = (ev) => {
-    this.setState({currentMaxNum: parseInt(ev.target.value)});
+    let value = parseInt(ev.target.value) > 300 ? 300 : parseInt(ev.target.value);
+    this.setState({currentMaxNum: value});
   };
 
   jumpTo = () => {
-    console.log("currentPage", this.state.currentPage);
     this.setState({activePage: this.state.currentPage});
   };
 
@@ -124,7 +126,8 @@ export default class Cxjg extends React.Component {
           </InputGroup.Button>
 
           <InputGroup.Addon>每页</InputGroup.Addon>
-          <FormControl style={{width: '55px'}} type='number' value={this.state.currentMaxNum}
+          <FormControl style={{width: '70px'}} type='number'
+                       value={this.state.currentMaxNum}
                        onChange={this.inputMaxNum}/>
           {' '}
           <InputGroup.Button>
