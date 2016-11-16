@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, FormGroup, Button, ControlLabel, FormControl, option, Grid, Row, Col} from 'react-bootstrap';
+import {Modal, FormGroup, Button, ControlLabel, FormControl, option, Grid, Row, Col, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {data, Type} from '../stores/tj-data';
 
 export default class Add extends React.Component {
@@ -113,6 +113,10 @@ export default class Add extends React.Component {
       height: '230px'
     };
 
+    const tooltip = (
+      <Tooltip id="tooltip">输入多个值时请用逗号分隔</Tooltip>
+    );
+
     return (
       <Modal id="add" bsSize="lg" show={this.props.show} onHide={this.close}>
         <Modal.Header closeButton>
@@ -150,8 +154,10 @@ export default class Add extends React.Component {
               <Col xs={2}>
                 <FormGroup controlId="types">
                   <ControlLabel>值</ControlLabel>
-                  <FormControl componentClass="input" disabled={this.shouldDisableValueInput()} onChange={this.inputValue}>
-                  </FormControl>
+                  <OverlayTrigger placement="bottom" overlay={tooltip}>
+                    <FormControl componentClass="input" disabled={this.shouldDisableValueInput()}
+                                 onChange={this.inputValue}/>
+                  </OverlayTrigger>
                 </FormGroup>
               </Col>
             </Row>
