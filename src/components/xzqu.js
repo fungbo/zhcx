@@ -8,7 +8,10 @@ export default class Xzqu extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {selectedDistrict: {name: data.name}};
+    this.state = {
+      cursor: {name: data.name, code: data.code},
+      selectedDistrict: {name: data.name, code: data.code}
+    };
   }
 
   onToggle = (node, toggled) => {
@@ -26,7 +29,9 @@ export default class Xzqu extends React.Component {
     this.setState({showModal: false});
     this.setState({selectedDistrict: this.state.cursor});
 
-    this.props.setDistrict(this.state.cursor.name);
+    console.log('cursor', this.state.cursor);
+
+    this.props.setDistrict(this.state.cursor.code);
   };
 
   render() {

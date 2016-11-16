@@ -12,7 +12,7 @@ export default class Zhcx extends React.Component {
     super(props);
 
     this.state = {
-      district: data.name,
+      district: data.code,
       activePage: 1,
       activeMaxNum: 30,
       head: [],
