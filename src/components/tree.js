@@ -1,6 +1,6 @@
 import React from 'react';
 import css from '../styles/tree.css';
-import Operator from './operator';
+import Operator from './condition-operator';
 
 export default class Tree extends React.Component {
   remove = (index) => {
