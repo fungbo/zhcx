@@ -155,7 +155,9 @@ export default class Add extends React.Component {
                 <FormGroup controlId="types">
                   <ControlLabel>值</ControlLabel>
                   <OverlayTrigger placement="bottom" overlay={tooltip}>
-                    <FormControl componentClass="input" disabled={this.shouldDisableValueInput()}
+                    <FormControl componentClass="input"
+                                 value={this.state.currentValue}
+                                 disabled={this.shouldDisableValueInput()}
                                  onChange={this.inputValue}/>
                   </OverlayTrigger>
                 </FormGroup>
