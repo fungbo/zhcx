@@ -67,6 +67,22 @@ export default class Add extends React.Component {
     this.setState({currentValue: ev.target.value});
   };
 
+  shouldDisableValueInput = () => {
+    if (this.state.activeType == -1) {
+      return false;
+    }
+
+    let attributes = data[this.state.activeCondition].attributes;
+    let attribute = attributes[this.state.activeAttribute];
+    let type = Type[attribute.type][this.state.activeType];
+
+    if (type.name == '为空(Is_Null)' || type.name == '不为空(Is_Not_Null)') {
+      return true;
+    }
+
+    return false;
+  };
+
   renderAttributes = () => {
     if (this.state.activeCondition == -1) {
       return '';
@@ -134,7 +150,7 @@ export default class Add extends React.Component {
               <Col xs={2}>
                 <FormGroup controlId="types">
                   <ControlLabel>值</ControlLabel>
-                  <FormControl componentClass="input" onChange={this.inputValue}>
+                  <FormControl componentClass="input" disabled={this.shouldDisableValueInput()} onChange={this.inputValue}>
                   </FormControl>
                 </FormGroup>
               </Col>
