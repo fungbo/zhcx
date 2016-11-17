@@ -1,7 +1,6 @@
 import React from 'react';
 import {Table, Pagination, FormControl, Button, InputGroup} from 'react-bootstrap';
 
-
 let style = {
   whiteSpace: 'nowrap',
   backgroundColor: '#f5f5f5',
@@ -56,13 +55,51 @@ export default class Cxjg extends React.Component {
     }
   };
 
+  handleClickHead = (ev, head) => {
+    ev.preventDefault();
+
+    let value = this.props.sortHead[head];
+    let sortHead = Object.assign({}, this.props.sortHead);
+
+    if (value === undefined) {
+      sortHead[head] = 1;
+    } else if (value === 1) {
+      sortHead[head] = 2;
+    } else if (value === 2) {
+      delete sortHead[head];
+    }
+
+    this.props.setSortHead(sortHead);
+  };
+
+  renderSortArrow = (head) => {
+    let value = this.props.sortHead[head];
+
+    if (value === 1) {
+      return <span className="glyphicon glyphicon-arrow-up"/>
+    } else if (value === 2) {
+      return <span className="glyphicon glyphicon-arrow-down"/>
+    }
+
+    return null;
+  };
+
   renderTHead = () => {
+    let linkStyle = {
+      textDecoration: "none"
+    };
+
     return <thead>
     <tr>
       {this.renderNo()}
       {
         this.props.head.map((col, index) => {
-          return <th key={index} style={style}>{col.split('-')[1]}</th>
+          return <th key={index} style={style}>
+            <a style={linkStyle} href="#" onClick={(ev) => this.handleClickHead(ev, col.split('-')[1])}>
+              {col.split('-')[1]}
+            </a>
+            {this.renderSortArrow(col.split('-')[1])}
+          </th>
         })
       }
     </tr>
@@ -148,7 +185,6 @@ export default class Cxjg extends React.Component {
           {this.renderTHead()}
           {this.renderTbody()}
         </Table>
-
         {this.renderPaginator()}
       </div>
     )
@@ -159,10 +195,12 @@ Cxjg.propTypes = {
   activeMaxNum: React.PropTypes.number.isRequired,
   activePage: React.PropTypes.number.isRequired,
   head: React.PropTypes.array.isRequired,
+  sortHead: React.PropTypes.object.isRequired,
   result: React.PropTypes.object.isRequired,
   setActivePage: React.PropTypes.func.isRequired,
   setActiveMaxNum: React.PropTypes.func.isRequired,
-  sendRequest: React.PropTypes.func.isRequired
+  sendRequest: React.PropTypes.func.isRequired,
+  setSortHead: React.PropTypes.func.isRequired
 };
 
 

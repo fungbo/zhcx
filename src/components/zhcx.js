@@ -16,6 +16,7 @@ export default class Zhcx extends React.Component {
       activePage: 1,
       activeMaxNum: 30,
       head: [],
+      sortHead: {},
       data: {},
       result: {count: 0, data: []}
     }
@@ -45,7 +46,26 @@ export default class Zhcx extends React.Component {
     this.setState({activeMaxNum: value});
   };
 
-  sendRequest = () => {
+  setSortHead = (sortHead) => {
+    this.setState({sortHead});
+
+    this.sendRequest(sortHead);
+  };
+
+  convertSortHead = (sortHead) => {
+    let keys = Object.keys(sortHead);
+
+    let res = [];
+    for (let key of keys) {
+      let item = {};
+      item[key] = sortHead[key];
+      res.push(item);
+    }
+
+    return res;
+  };
+
+  sendRequest = (sortHead = this.state.sortHead) => {
     if (Object.keys(this.state.data).length === 0) {
       return;
     }
@@ -53,6 +73,7 @@ export default class Zhcx extends React.Component {
     let data = Object.assign({}, this.state.data);
     data.pageNumber = this.state.activePage;
     data.maxRecordsPerPage = this.state.activeMaxNum;
+    data.sortHead = this.convertSortHead(sortHead);
 
     axios.request({
       method: 'post',
@@ -60,7 +81,6 @@ export default class Zhcx extends React.Component {
       data: data,
       responseType: 'json'
     }).then((response) => {
-      console.log('response', response.data);
       this.setHead(this.state.head);
       this.setResult(response.data);
     }).catch((error) => {
@@ -91,10 +111,12 @@ export default class Zhcx extends React.Component {
         <Row>
           <Col xs={9} className={`${css.jgColumn} ${css.cxjg}`}>
             <Cxjg head={this.state.head}
+                  sortHead={this.state.sortHead}
                   activePage={this.state.activePage}
                   activeMaxNum={this.state.activeMaxNum}
                   setActivePage={this.setActivePage}
                   setActiveMaxNum={this.setActiveMaxNum}
+                  setSortHead={this.setSortHead}
                   result={this.state.result}
                   sendRequest={this.sendRequest}/>
           </Col>
