@@ -57,9 +57,7 @@ export default class Zhcx extends React.Component {
 
     let res = [];
     for (let key of keys) {
-      let item = {};
-      item[key] = sortHead[key];
-      res.push(item);
+      res.push({name: key, sort: sortHead[key]})
     }
 
     return res;
