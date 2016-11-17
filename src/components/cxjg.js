@@ -95,10 +95,10 @@ export default class Cxjg extends React.Component {
       {
         this.props.head.map((col, index) => {
           return <th key={index} style={style}>
-            <a style={linkStyle} href="#" onClick={(ev) => this.handleClickHead(ev, col.split('-')[1])}>
+            <a style={linkStyle} href="#" onClick={(ev) => this.handleClickHead(ev, col)}>
               {col.split('-')[1]}
             </a>
-            {this.renderSortArrow(col.split('-')[1])}
+            {this.renderSortArrow(col)}
           </th>
         })
       }
