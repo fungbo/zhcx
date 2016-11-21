@@ -143,6 +143,15 @@ export default class Cxjg extends React.Component {
     this.props.sendRequest();
   };
 
+  renderExportBtn = () => {
+    if (this.props.result.data.length === 0) {
+      return null;
+    } else {
+      return <Button bsStyle="success" style={{marginTop: "20px"}}
+                     onClick={ev => this.props.sendRequest(undefined, '/zhcx-excel')}>导出Excel</Button>
+    }
+  };
+
   renderPaginator = () => {
     if (this.props.result.data.length === 0) {
       return null;
@@ -186,6 +195,8 @@ export default class Cxjg extends React.Component {
           {this.renderTbody()}
         </Table>
         {this.renderPaginator()}
+        {' '}
+        {this.renderExportBtn()}
       </div>
     )
   }

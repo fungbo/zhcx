@@ -63,7 +63,7 @@ export default class Zhcx extends React.Component {
     return res;
   };
 
-  sendRequest = (sortHead = this.state.sortHead) => {
+  sendRequest = (sortHead = this.state.sortHead, url='/zhcx/') => {
     if (Object.keys(this.state.data).length === 0) {
       return;
     }
@@ -75,7 +75,7 @@ export default class Zhcx extends React.Component {
 
     axios.request({
       method: 'post',
-      url: '/zhcx/',
+      url: url,
       data: data,
       responseType: 'json'
     }).then((response) => {
