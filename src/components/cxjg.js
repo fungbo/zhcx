@@ -148,7 +148,7 @@ export default class Cxjg extends React.Component {
       return null;
     } else {
       return <Button bsStyle="success" style={{marginTop: "20px"}}
-                     onClick={ev => this.props.sendRequest(undefined, '/zhcx-excel')}>导出Excel</Button>
+                     onClick={ev => this.props.exportExcel(undefined, '/zhcx-excel/')}>导出CSV</Button>
     }
   };
 
@@ -211,6 +211,7 @@ Cxjg.propTypes = {
   setActivePage: React.PropTypes.func.isRequired,
   setActiveMaxNum: React.PropTypes.func.isRequired,
   sendRequest: React.PropTypes.func.isRequired,
+  exportExcel: React.PropTypes.func.isRequired,
   setSortHead: React.PropTypes.func.isRequired
 };
 

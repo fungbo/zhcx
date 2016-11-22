@@ -63,7 +63,25 @@ export default class Zhcx extends React.Component {
     return res;
   };
 
-  sendRequest = (sortHead = this.state.sortHead, url='/zhcx/') => {
+  exportExcel = (sortHead = this.state.sortHead, url) => {
+    if (Object.keys(this.state.data).length === 0) {
+      return;
+    }
+
+    let data = Object.assign({}, this.state.data);
+    data.sortHead = this.convertSortHead(sortHead);
+
+
+    axios.request({
+      method: 'post',
+      url: '/zhcx-excel',
+      data: data,
+    }).then((response) => {
+      window.location = `/zhcx-excel/${response.data}`
+    }).catch(error => console.log('zhcx export error: ' + error));
+  };
+
+  sendRequest = (sortHead = this.state.sortHead) => {
     if (Object.keys(this.state.data).length === 0) {
       return;
     }
@@ -75,7 +93,7 @@ export default class Zhcx extends React.Component {
 
     axios.request({
       method: 'post',
-      url: url,
+      url: '/zhcx/',
       data: data,
       responseType: 'json'
     }).then((response) => {
@@ -116,7 +134,8 @@ export default class Zhcx extends React.Component {
                   setActiveMaxNum={this.setActiveMaxNum}
                   setSortHead={this.setSortHead}
                   result={this.state.result}
-                  sendRequest={this.sendRequest}/>
+                  sendRequest={this.sendRequest}
+                  exportExcel={this.exportExcel}/>
           </Col>
         </Row>
       </Grid>
